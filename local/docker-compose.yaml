@@ -14,7 +14,6 @@ services:
       - "4317:4317"  # otlp grpc
       - "4318:4318"  # otlp http
       - "9411:9411"   # zipkin
-      - "3100:3100"   # tempo
       - "6831/udp"   # Jaeger - Thrift Compact
       - "6832/udp"   # Jaeger - Thrift Binary
 
@@ -49,12 +48,12 @@ services:
     ports:
       - "3000:3000"
 
-  tempo-query:
-    image: grafana/tempo-query:0.7.0
-    command: ["--grpc-storage-plugin.configuration-file=/etc/tempo-query.yaml"]
-    volumes:
-      - ./etc/tempo-query.yaml:/etc/tempo-query.yaml
-    ports:
-      - "16686:16686"  # jaeger-ui
-    depends_on:
-      - tempo
+  # tempo-query:
+  #   image: grafana/tempo-query:0.7.0
+  #   command: ["--grpc-storage-plugin.configuration-file=/etc/tempo-query.yaml"]
+  #   volumes:
+  #     - ./etc/tempo-query.yaml:/etc/tempo-query.yaml
+  #   ports:
+  #     - "16686:16686"  # jaeger-ui
+  #   depends_on:
+  #     - tempo
