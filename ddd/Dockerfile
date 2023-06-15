@@ -1,0 +1,1 @@
+FROM grafana/fluent-bit-plugin-loki:1.5.0-amd64
