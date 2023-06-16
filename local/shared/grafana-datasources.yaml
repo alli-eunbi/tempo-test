@@ -28,7 +28,17 @@ datasources:
     httpMethod: GET
     serviceMap:
       datasourceUid: prometheus
+
 - name: Loki
   type: loki
-  uid: loki
-  url: http://loki:3100
+  access: proxy
+  url: http://gateway:3100
+  jsonData:
+    httpHeaderName1: "X-Scope-OrgID"
+  secureJsonData:
+    httpHeaderValue1: "tenant1"
+
+# - name: Loki
+#   type: loki
+#   uid: loki
+#   url: http://loki:3100
