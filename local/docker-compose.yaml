@@ -108,6 +108,29 @@ services:
     networks:
       - loki
 
+  agent:
+    platform: linux/amd64
+    image: grafana/agent:latest
+    volumes:
+      - ./agent/config.yaml:/etc/agent-config/agent.yaml
+    entrypoint:
+      - /bin/grafana-agent
+      - -server.http.address=0.0.0.0:12345
+      - -config.file=/etc/agent-config/agent.yaml
+      - -metrics.wal-directory=/tmp/agent/wal
+      - -enable-features=integrations-next
+      - -config.expand-env
+      - -config.enable-read-api
+    environment:
+      HOSTNAME: agent
+      LOKI_HOST: loki:3100
+      # TEMPO_HOST: tempo:4317
+    ports:
+      - "12345:12345"
+    depends_on:
+      - tempo
+
+
   gateway:
     image: nginx:latest
     depends_on:
