@@ -157,6 +157,7 @@ services:
             location = /loki/kinesis-firehose {
               proxy_pass       http://write:3100/loki/api/v1/push;
               proxy_set_header Accept-Encoding "gzip";
+              proxy_set_header Content-Type application/json;
             }
 
             location = /loki/api/v1/tail {
