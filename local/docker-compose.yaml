@@ -108,14 +108,6 @@ services:
     networks:
       - loki
 
-  flog:
-    platform: linux/amd64
-    image: mingrammer/flog
-    command: -f json -d 1s -l
-    networks:
-      - loki
-
-
   gateway:
     image: nginx:latest
     depends_on:
@@ -160,6 +152,11 @@ services:
 
             location = /loki/api/v1/push {
               proxy_pass       http://write:3100\$$request_uri;
+            }
+
+            location = /loki/kinesis-firehose {
+              proxy_pass       http://write:3100/loki/api/v1/push;
+              proxy_set_header Accept-Encoding "gzip";
             }
 
             location = /loki/api/v1/tail {

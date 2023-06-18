@@ -33,10 +33,10 @@ datasources:
   type: loki
   access: proxy
   url: http://gateway:3100
-  jsonData:
-    httpHeaderName1: "X-Scope-OrgID"
-  secureJsonData:
-    httpHeaderValue1: "tenant1"
+  # jsonData:
+  #   httpHeaderName1: "X-Scope-OrgID"
+  # secureJsonData:
+  #   httpHeaderValue1: "tenant1"
 
 # - name: Loki
 #   type: loki

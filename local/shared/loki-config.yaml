@@ -1,6 +1,8 @@
----
+auth_enabled:
+  false
 server:
   http_listen_port: 3100
+  grpc_listen_port: 9096
 memberlist:
   join_members:
     - loki:7946
@@ -14,7 +16,7 @@ schema_config:
         prefix: index_
         period: 24h
 common:
-  path_prefix: /loki
+  path_prefix: /tmp/loki
   replication_factor: 1
   storage:
     filesystem:
