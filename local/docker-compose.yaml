@@ -112,14 +112,26 @@ services:
   agent:
     platform: linux/amd64
     image: grafana/agent:latest
-    environment:
-      - AGENT_MODE=flow
+
     volumes:
       - ./agent/config.river:/etc/agent/config.river
+      - ./agent/config.yaml:/etc/agent-config/agent.yaml
     ports:
       - 12345:12345
       - 8080:8080
     command: run --server.http.listen-addr=0.0.0.0:12345 /etc/agent/config.river
+    entrypoint:
+      - /bin/grafana-agent
+      - server.http.address=0.0.0.0:12345
+      - config.file=/etc/agent-config/agent.yaml
+      # - metrics.wal-directory=/tmp/agent/wal
+      - enable-features=integrations-next
+      - config.expand-env
+      - config.enable-read-api
+    environment:
+      - AGENT_MODE=flow
+      - HOSTNAME=agent
+      - LOKI_HOST=write:3100
     networks:
       - loki
       - grafana
