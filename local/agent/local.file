@@ -1,0 +1,19 @@
+loki.write "local" {
+    endpoint {
+        url = "http://loki:3100/api/v1/push"
+        basic_auth {
+            username = "<your username>"
+            password_file = "<your password file>"
+        }
+    }
+}
+
+loki.source.awsfirehose "loki_fh_receiver" {
+    http {
+        listen_address = "0.0.0.0"
+        listen_port = 9999
+    }
+    forward_to = [
+        loki.write.local.receiver,
+    ]
+}

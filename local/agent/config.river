@@ -1,0 +1,28 @@
+loki.write "local" {
+    endpoint {
+        url = "http://gateway:3100/loki/api/v1/push"
+    }
+}
+
+loki.source.awsfirehose "loki_fh_receiver" {
+    http {
+        listen_address = "0.0.0.0"
+        listen_port = 8080
+    }
+    forward_to = [
+        loki.write.local.receiver,
+    ]
+}
+loki.relabel "logging_origin" {
+  rule {
+    action = "replace"
+    source_labels = ["__aws_cw_log_group"]
+    target_label = "log_group"
+  }
+  rule {
+    action = "replace"
+    source_labels = ["__aws_cw_log_stream"]
+    target_label = "log_stream"
+  }
+  forward_to = []
+}
