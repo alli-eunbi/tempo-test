@@ -17,21 +17,16 @@ loki.source.awsfirehose "loki_fh_receiver" {
 
 loki.process "kinesis_firehose"{
 
-stage.json {
-    expressions = { 
-       "appname" = "springAppName",
-       "msg" = "message",
-       "level" = "level",
-       "hostName" = "HOSTNAME",
+  stage.json {
+    expressions = { "appname" = "app" }
    }
-}
 
   stage.labels {
      values = {
-       "spring_app" = "appname",
-       "message" = "msg",
+       "spring_app" = "springAppName",
+       "message" = "message",
        "level" = "level",
-       "host" = "hostName", 
+       "HOSTNAME" = "",
      }
    }
 
